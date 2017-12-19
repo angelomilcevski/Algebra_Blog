@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Home page
+Route::get('/', ['as' => 'index', 'uses' => 'IndexController@index']);
 
 
 // Authorization
