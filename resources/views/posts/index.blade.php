@@ -29,7 +29,7 @@
 					<td>{{ $post->title }}</td>
 					<td>{{ $post->user->email}}</td>
 					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</td>
-					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}}</td>
+					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}</td>
 				<td>
 					<a href="#" class="btn btn-default btn-sm">Edit</a>
 					<a href="#" class="btn btn-danger  btn-sm">Delete</a>
