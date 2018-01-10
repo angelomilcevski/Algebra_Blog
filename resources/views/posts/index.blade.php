@@ -29,11 +29,19 @@
 					<td>{{ $post->title }}</td>
 					<td>{{ $post->user->email}}</td>
 					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</td>
-					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}</td>
+					
+					<td>@if($post->updated_at === null)
+				{{ 'Never' }}
+					
+				@else
+				{{ \Carbon\Carbon::createFromTimeStamp(strtotime($post->updated_at))->diffForHumans() }}
+					
+				@endif</td>
 				<td>
-					<a href="#" class="btn btn-default btn-sm">Edit</a>
+					<a href="{{ route('posts.edit', $post->id)}}" class="btn btn-default btn-sm">Edit</a>
 					<a href="#" class="btn btn-danger  btn-sm">Delete</a>
 				</td>
+				
 				
 				</tr>
 			@endforeach

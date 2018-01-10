@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
 use App\Models\Post;
 use Sentinel;
 
 class PostController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('sentinel.auth');
+	}
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +38,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -42,9 +47,21 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        //
+        
+		$post = array(
+			'title'=> $request->get('title'),
+			'content'=> $request->get('content'),
+			'user_id'=> Sentinel::getUser()->id
+			
+			);
+			
+			$new_post = new Post();
+			$new_post->savePost($post);
+			
+			session()->flash('success','You have successfully added a new post.' );
+			return redirect()->route('posts.index');
     }
 
     /**
@@ -66,7 +83,15 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = post::find($id);
+		
+		if(Sentinel::getUser()->id === $post->user_id || Sentinel::inRole('administrator')){
+			echo 'Moze';
+		
+		}else{
+			session()->flash('info','You can\'t edit this post');
+			return redirect()->route('posts.index');
+		}
     }
 
     /**
