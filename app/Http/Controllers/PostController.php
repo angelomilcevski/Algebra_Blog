@@ -18,16 +18,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {	
-		if(Sentinel::inRole('administrator')){
+     public function index()
+    {
+		if(Sentinel::inRole('administrator')) {
 			$posts = Post::orderBy('created_at','DESC')->paginate(20);
-		}else{
-			Sentinel::getUser()->id;
-			$posts = Post::where('user_id',$user_id)->orderBy('created_at','DESC')->paginate(20);;
-			
+		} else {
+			$user_id = Sentinel::getUser()->id;
+			$posts = Post::where('user_id',$user_id)->orderBy('created_at','DESC')->paginate(20);
 		}
-	
+		
         return view('posts.index')->with('posts', $posts);
     }
 
