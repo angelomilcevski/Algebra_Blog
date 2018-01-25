@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Posts;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,7 @@ class PostServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AliasLoader::getInstance()=>alias('Post', 'App\Facades\Post');
+        AliasLoader::getInstance()->alias('Post', 'App\Facades\Post');
     }
 
     /**
@@ -24,6 +25,8 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('post',function($app){
+			return new Posts();
+		});
     }
 }
